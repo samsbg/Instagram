@@ -1,13 +1,13 @@
-package com.codepath.instagram;
+package com.codepath.instagram.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.codepath.instagram.R;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
