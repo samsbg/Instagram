@@ -2,9 +2,13 @@ package com.codepath.instagram;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+
+import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +23,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.logOut) {
+            ParseUser.logOut();
+            Intent i  = new Intent(this, LoginActivity.class);
+            startActivity(i);
+            finish();
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
         return true;
     }
 }
