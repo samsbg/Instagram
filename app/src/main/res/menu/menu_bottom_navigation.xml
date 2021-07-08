@@ -2,21 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/optPost"
-        android:enabled="true"
-        android:icon="@drawable/instagram_new_post_filled_24"
-        android:title="Post"
+        android:id="@+id/optProfile"
+        android:icon="@drawable/instagram_user"
+        android:title="Profile"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/optFeedView"
-        android:enabled="true"
-        android:icon="@drawable/instagram_home_filled_24"
+        android:icon="@drawable/instagram_home"
         android:title="FeedView"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/optProfile"
-        android:enabled="true"
-        android:icon="@drawable/instagram_user_filled_24"
-        android:title="Profile"
+        android:id="@+id/optPost"
+        android:icon="@drawable/instagram_new_post"
+        android:title="Post"
         app:showAsAction="ifRoom" />
 </menu>
