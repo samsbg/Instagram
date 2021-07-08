@@ -62,16 +62,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         return posts.size();
     }
 
-    public String getRelativeTimeAgo(Date date) {
-        //String backAppFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
-        //SimpleDateFormat sf = new SimpleDateFormat(backAppFormat, Locale.ENGLISH);
-        //sf.setLenient(true);
+    public static String calculateTimeAgo(Date createdAt) {
 
-        //DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        //String reportDate = df.format(date);
+        int SECOND_MILLIS = 1000;
+        int MINUTE_MILLIS = 60 * SECOND_MILLIS;
+        int HOUR_MILLIS = 60 * MINUTE_MILLIS;
+        int DAY_MILLIS = 24 * HOUR_MILLIS;
 
         try {
-            long time = date.getTime();
+            createdAt.getTime();
+            long time = createdAt.getTime();
             long now = System.currentTimeMillis();
 
             final long diff = now - time;
@@ -91,11 +91,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 return diff / DAY_MILLIS + "d";
             }
         } catch (Exception e) {
-            Log.e("postsAdapter", "getRelativeTimeAgo failed", e);
+            Log.i("Error:", "getRelativeTimeAgo failed", e);
             e.printStackTrace();
         }
 
         return "";
+    }
+
+    // Clean all elements of the recycler
+    public void clear() {
+        posts.clear();
+        notifyDataSetChanged();
+    }
+
+    // Add a list of items -- change to type used
+    public void addAll(List<Post> list) {
+        posts.addAll(list);
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -116,13 +128,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         public void bind(final Post post) {
             tvDescription.setText(post.getDescription());
             tvUsername.setText(post.getUser().getUsername());
-
-            if (post.getTime() == null) {
-                Log.e("PostAdapter", "Date is null");
-            } else {
-                //tvTime.setText(getRelativeTimeAgo(post.getTime()));
-                Log.d("PostAdapter", "Date is not null");
-            }
+            tvTime.setText(calculateTimeAgo(post.getCreatedAt()));
 
             if (post.getImage() != null) {
                 post.getImage().getDataInBackground(new GetDataCallback() {
