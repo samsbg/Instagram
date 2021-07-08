@@ -22,6 +22,8 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Collections.reverse;
+
 public class FeedActivity extends AppCompatActivity {
 
     RecyclerView rvFeed;
@@ -89,6 +91,7 @@ public class FeedActivity extends AppCompatActivity {
                     Log.e("FeedActivity", "Issue with getting posts", e);
                     return;
                 }
+                reverse(postsList);
                 posts.addAll(postsList);
                 adapter.notifyDataSetChanged();
             }
