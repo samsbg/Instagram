@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -23,15 +22,12 @@ import android.widget.Toast;
 import com.codepath.instagram.R;
 import com.codepath.instagram.models.Post;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.File;
-import java.util.List;
 
 public class CreatePostActivity extends AppCompatActivity {
 
@@ -97,10 +93,6 @@ public class CreatePostActivity extends AppCompatActivity {
                 }
             }
         });
-
-        //queryPosts();
-
-
     }
 
     private void launchCamera() {
@@ -165,23 +157,6 @@ public class CreatePostActivity extends AppCompatActivity {
                 Log.i("MainActivity", "Post save was successful");
                 etDescription.setText("");
                 ivPostImage.setImageResource(0);
-            }
-        });
-    }
-
-    private void queryPosts() {
-        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        query.include(Post.KEY_USER);
-        query.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> posts, ParseException e) {
-                if (e != null) {
-                    Log.e("MainActivity", "Issue with getting posts", e);
-                    return;
-                }
-                for (Post post : posts) {
-                    Log.i("MainActivity", "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
-                }
             }
         });
     }
