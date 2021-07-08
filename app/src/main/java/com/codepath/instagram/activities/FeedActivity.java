@@ -2,6 +2,8 @@ package com.codepath.instagram.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +12,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.codepath.instagram.R;
+import com.codepath.instagram.adapters.PostAdapter;
+import com.codepath.instagram.models.Post;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.FindCallback;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FeedActivity extends AppCompatActivity {
+
+    RecyclerView rvFeed;
+    List<Post> posts;
+    PostAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +34,6 @@ public class FeedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_feed);
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -38,6 +50,14 @@ public class FeedActivity extends AppCompatActivity {
                 }
             }
         });
+
+        posts = new ArrayList<>();
+        adapter = new PostAdapter(this, posts);
+
+        rvFeed = findViewById(R.id.rvFeed);
+        rvFeed.setLayoutManager(new LinearLayoutManager(this));
+        rvFeed.setAdapter(adapter);
+        queryPosts();
     }
 
     @Override
@@ -59,5 +79,20 @@ public class FeedActivity extends AppCompatActivity {
         return true;
     }
 
+    private void queryPosts() {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> postsList, com.parse.ParseException e) {
+                if (e != null) {
+                    Log.e("FeedActivity", "Issue with getting posts", e);
+                    return;
+                }
+                posts.addAll(postsList);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
 
 }
