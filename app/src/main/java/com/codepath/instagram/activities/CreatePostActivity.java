@@ -165,22 +165,5 @@ public class CreatePostActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_create_post, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.logOut) {
-            ParseUser.logOut();
-            Intent i  = new Intent(this, LoginActivity.class);
-            startActivity(i);
-            finish();
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
-        return true;
-    }
 }
