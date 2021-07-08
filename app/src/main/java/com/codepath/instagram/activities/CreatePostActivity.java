@@ -1,6 +1,5 @@
 package com.codepath.instagram.activities;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
@@ -32,7 +31,7 @@ import com.parse.SaveCallback;
 import java.io.File;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class CreatePostActivity extends AppCompatActivity {
 
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
 
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_create_post);
 
         etDescription = findViewById(R.id.etDescription);
         btnCaptureImage = findViewById(R.id.btnCaptureImage);
@@ -66,11 +65,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String description = etDescription.getText().toString();
                 if (description.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Description cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreatePostActivity.this, "Description cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (photoFile == null || ivPostImage.getDrawable() == null) {
-                    Toast.makeText(MainActivity.this, "THere is no image!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreatePostActivity.this, "THere is no image!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         photoFile = getPhotoFileUri(photoFileName);
 
-        Uri fileProvider = FileProvider.getUriForFile(MainActivity.this, "com.codepath.fileprovider", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(CreatePostActivity.this, "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         if (intent.resolveActivity(getPackageManager()) != null) {
@@ -140,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if (e != null) {
                     Log.e("MainActivity", "Error while saving", e);
-                    Toast.makeText(MainActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreatePostActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
                 }
                 Log.i("MainActivity", "Post save was successful");
                 etDescription.setText("");
@@ -168,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_create_post, menu);
         return true;
     }
 
