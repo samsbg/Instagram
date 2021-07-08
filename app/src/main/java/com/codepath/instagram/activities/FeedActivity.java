@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -25,11 +26,10 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.optCapturePost:
-                        // do something here
-                        return true;
-                    case R.id.optFeedView:
-                        // do something here
+                    case R.id.optPost:
+                        Log.d("onNavigationItemSelected", "optPost");
+                        Intent i = new Intent(FeedActivity.this, CreatePostActivity.class);
+                        startActivity(i);
                         return true;
                     case R.id.optProfile:
                         // do something here

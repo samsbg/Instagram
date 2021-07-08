@@ -1,5 +1,6 @@
 package com.codepath.instagram.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.codepath.instagram.R;
 import com.codepath.instagram.models.Post;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -74,6 +76,25 @@ public class CreatePostActivity extends AppCompatActivity {
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 savePost(description, currentUser, photoFile);
+            }
+        });
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.optFeedView:
+                        Intent i = new Intent(CreatePostActivity.this, FeedActivity.class);
+                        startActivity(i);
+                        finish();
+                        return true;
+                    case R.id.optProfile:
+                        // do something here
+                        return true;
+                    default: return true;
+                }
             }
         });
 

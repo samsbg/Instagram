@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/optCapturePost"
+        android:id="@+id/optPost"
         android:enabled="true"
         android:icon="@drawable/instagram_new_post_filled_24"
-        android:title="Capture posts"
+        android:title="Post"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/optFeedView"
