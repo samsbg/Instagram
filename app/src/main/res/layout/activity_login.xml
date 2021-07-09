@@ -52,8 +52,10 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
+        android:backgroundTint="@color/blue"
         android:ems="12"
-        android:text="Login" />
+        android:text="Login"
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/btnSignUp"
@@ -64,7 +66,9 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
+        android:backgroundTint="@color/blue"
         android:ems="12"
-        android:text="Sign up" />
+        android:text="Sign up"
+        android:textColor="@color/white" />
 
 </LinearLayout>

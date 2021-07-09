@@ -6,8 +6,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <queries>
-
-        <!-- Camera -->
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
         </intent>
@@ -21,7 +19,8 @@
         android:roundIcon="@drawable/instagram_logo_circular"
         android:supportsRtl="true"
         android:theme="@style/Theme.Instagram">
-        <activity android:name=".activities.FeedActivity"></activity>
+        <activity android:name=".activities.ProfileActivity"></activity>
+        <activity android:name=".activities.FeedActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
