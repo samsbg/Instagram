@@ -50,7 +50,8 @@ public class FeedActivity extends AppCompatActivity {
                         startActivity(i);
                         return true;
                     case R.id.optProfile:
-                        // do something here
+                        Intent j = new Intent(FeedActivity.this, ProfileActivity.class);
+                        startActivity(j);
                         return true;
                     default: return true;
                 }

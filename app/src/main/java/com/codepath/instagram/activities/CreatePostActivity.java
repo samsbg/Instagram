@@ -87,7 +87,9 @@ public class CreatePostActivity extends AppCompatActivity {
                         finish();
                         return true;
                     case R.id.optProfile:
-                        // do something here
+                        Intent j = new Intent(CreatePostActivity.this, ProfileActivity.class);
+                        startActivity(j);
+                        finish();
                         return true;
                     default: return true;
                 }
