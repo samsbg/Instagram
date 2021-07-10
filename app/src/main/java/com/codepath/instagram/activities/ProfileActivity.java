@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.codepath.instagram.R;
@@ -29,6 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     TextView tvUsername;
     RecyclerView rvUserFeed;
+    Button btnProfilePic;
 
     List<Post> posts;
     ProfilePostAdapter adapter;
@@ -61,12 +64,20 @@ public class ProfileActivity extends AppCompatActivity {
 
         tvUsername = findViewById(R.id.tvUsername);
         rvUserFeed = findViewById(R.id.rvUserFeed);
+        btnProfilePic = findViewById(R.id.btnProfilePic);
 
         tvUsername.setText(ParseUser.getCurrentUser().getUsername());
 
         rvUserFeed.setLayoutManager(new GridLayoutManager(this, 3));
         rvUserFeed.setAdapter(adapter);
         queryProfilePosts();
+
+        btnProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void queryProfilePosts() {
