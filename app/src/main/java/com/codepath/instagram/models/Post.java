@@ -27,10 +27,6 @@ public class Post extends ParseObject {
         return getParseUser(KEY_USER);
     }
 
-    public Date getTime() {
-        return getDate(KEY_TIME);
-    }
-
     public void setDescription(String description) {
         put(KEY_DESCRIPTION, description);
     }

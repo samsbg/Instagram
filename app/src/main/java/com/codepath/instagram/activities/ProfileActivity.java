@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.codepath.instagram.R;
 import com.codepath.instagram.adapters.ProfilePostAdapter;
@@ -26,7 +27,9 @@ import static java.util.Collections.reverse;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    TextView tvUsername;
     RecyclerView rvUserFeed;
+
     List<Post> posts;
     ProfilePostAdapter adapter;
 
@@ -56,7 +59,11 @@ public class ProfileActivity extends AppCompatActivity {
         posts = new ArrayList<>();
         adapter = new ProfilePostAdapter(this, posts);
 
+        tvUsername = findViewById(R.id.tvUsername);
         rvUserFeed = findViewById(R.id.rvUserFeed);
+
+        tvUsername.setText(ParseUser.getCurrentUser().getUsername());
+
         rvUserFeed.setLayoutManager(new GridLayoutManager(this, 3));
         rvUserFeed.setAdapter(adapter);
         queryProfilePosts();

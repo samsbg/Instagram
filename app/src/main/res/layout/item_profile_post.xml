@@ -3,21 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginStart="2dp"
     android:layout_marginLeft="2dp"
     android:layout_marginTop="2dp"
-    android:layout_marginEnd="2dp">
+    android:layout_marginEnd="2dp"
+    android:background="#A6A6A6"
+    android:backgroundTint="#A6A6A6">
 
     <ImageView
         android:id="@+id/ivProfilePost"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:foregroundGravity="center_vertical|center_horizontal"
         tools:srcCompat="@tools:sample/avatars" />
 </RelativeLayout>
