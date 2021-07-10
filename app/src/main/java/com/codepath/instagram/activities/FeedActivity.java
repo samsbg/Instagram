@@ -33,19 +33,17 @@ public class FeedActivity extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeContainer;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.optPost:
-                        Log.d("onNavigationItemSelected", "optPost");
                         Intent i = new Intent(FeedActivity.this, CreatePostActivity.class);
                         startActivity(i);
                         return true;
@@ -66,16 +64,12 @@ public class FeedActivity extends AppCompatActivity {
         rvFeed.setAdapter(adapter);
         queryPosts();
 
-        // Lookup the swipe container view
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-        // Setup refresh listener which triggers new data loading
+        swipeContainer = findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
                 fetchTimelineAsync(0);
+                swipeContainer.setRefreshing(false);
             }
         });
     }
@@ -117,11 +111,8 @@ public class FeedActivity extends AppCompatActivity {
     }
 
     public void fetchTimelineAsync(int page) {
-        // Remember to CLEAR OUT old items before appending in the new ones
         adapter.clear();
-        // ...the data has come back, add new items to your adapter...
         queryPosts();
-        swipeContainer.setRefreshing(false);
     }
 
 }

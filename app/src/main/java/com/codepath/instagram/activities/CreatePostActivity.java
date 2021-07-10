@@ -29,6 +29,8 @@ import com.parse.SaveCallback;
 
 import java.io.File;
 
+import static android.view.View.VISIBLE;
+
 public class CreatePostActivity extends AppCompatActivity {
 
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
@@ -38,8 +40,8 @@ public class CreatePostActivity extends AppCompatActivity {
     private ImageView ivPostImage;
     private Button btnSubmit;
     private File photoFile;
-    public String photoFileName = "photo.jpg";
 
+    public String photoFileName = "photo.jpg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,19 +66,16 @@ public class CreatePostActivity extends AppCompatActivity {
                 String description = etDescription.getText().toString();
                 if (description.isEmpty()) {
                     Toast.makeText(CreatePostActivity.this, "Description cannot be empty", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (photoFile == null || ivPostImage.getDrawable() == null) {
+                } else if (photoFile == null || ivPostImage.getDrawable() == null) {
                     Toast.makeText(CreatePostActivity.this, "THere is no image!", Toast.LENGTH_SHORT).show();
-                    return;
+                } else {
+                    ParseUser currentUser = ParseUser.getCurrentUser();
+                    savePost(description, currentUser, photoFile);
                 }
-                ParseUser currentUser = ParseUser.getCurrentUser();
-                savePost(description, currentUser, photoFile);
             }
         });
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -98,10 +97,10 @@ public class CreatePostActivity extends AppCompatActivity {
     }
 
     private void launchCamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         photoFile = getPhotoFileUri(photoFileName);
-
         Uri fileProvider = FileProvider.getUriForFile(CreatePostActivity.this, "com.codepath.fileprovider", photoFile);
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         if (intent.resolveActivity(getPackageManager()) != null) {
@@ -114,13 +113,11 @@ public class CreatePostActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                // by this point we have the camera photo on disk
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                // RESIZE BITMAP, see section below
-                // Load the taken image into a preview
-                ImageView ivPreview = (ImageView) findViewById(R.id.ivPostImage);
+                ImageView ivPreview = findViewById(R.id.ivPostImage);
                 ivPreview.setImageBitmap(takenImage);
-            } else { // Result was a failure
+                ivPreview.setVisibility(VISIBLE);
+            } else {
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
@@ -128,40 +125,32 @@ public class CreatePostActivity extends AppCompatActivity {
 
     // Returns the File for a photo stored on disk given the fileName
     public File getPhotoFileUri(String fileName) {
-        // Get safe storage directory for photos
-        // Use `getExternalFilesDir` on Context to access package-specific directories.
-        // This way, we don't need to request external read/write runtime permissions.
         File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "MainActivity");
-
-        // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
-            Log.d("GetPhotoFileUri", "failed to create directory");
+            Log.e("GetPhotoFileUri", "failed to create directory");
         }
 
-        // Return the file target for the photo based on filename
         File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
-
         return file;
     }
 
     private void savePost(String description, ParseUser currentUser, File photoFile) {
         Post post = new Post();
+
         post.setDescription(description);
         post.setImage(new ParseFile(photoFile));
         post.setUser(currentUser);
+
         post.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e != null) {
                     Log.e("MainActivity", "Error while saving", e);
-                    Toast.makeText(CreatePostActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreatePostActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
                 }
-                Log.i("MainActivity", "Post save was successful");
                 etDescription.setText("");
                 ivPostImage.setImageResource(0);
             }
         });
     }
-
-
 }
